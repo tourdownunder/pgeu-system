@@ -9,7 +9,7 @@ django-markdown==0.8.4
 django-markwhat==1.6.2
 flup
 httplib2
-psycopg2
+psycopg2-binary
 pycryptodomex==3.6.1
 reportlab==3.5.13
 pytz
@@ -17,3 +17,4 @@ python-dateutil
 requests
 requests-oauthlib==1.0.0
 file-magic
+uwsgi

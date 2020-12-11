@@ -26,7 +26,7 @@ psql -w "host=$PGH port=$PGP dbname=$PGD user=$PGU" -c "CREATE SCHEMA IF NOT EXI
 # Start from script directory to be safe!
 cd "${0%/*}"
 
-virtualenv --no-site-packages --python=python3 venv_dev
+virtualenv --python=python3 venv_dev
 venv_dev/bin/pip install -r dev_requirements.txt
 
 cd ../..
@@ -49,19 +49,18 @@ CSRF_COOKIE_SECURE=False
 SITEBASE="http://localhost:8012/"
 EOF
 
-ln -s tools/devsetup/venv_dev/bin/python .
-./python manage.py migrate
+tools/devsetup/venv_dev/bin/python manage.py migrate
 
 cat tools/devsetup/devserver-uwsgi.ini.tmpl | sed -e "s#%DJANGO%#$(pwd)/tools/devsetup/venv_dev#g" > devserver-uwsgi.ini
 
 echo ""
 echo "Creating a django superuser, and setting password!"
-./python manage.py createsuperuser
+tools/devsetup/venv_dev/bin/python manage.py createsuperuser
 
 echo "All ready to go. To start the development server, go to"
 pwd
 echo "and run:"
-echo "uwsgi --ini devserver-uwsgi.ini"
+echo "venv_dev/bin/uwsgi --ini devserver-uwsgi.ini"
 echo ""
 echo "or for a slightly more limited version:"
-echo "./python manage.py runserver"
+echo "venv_dev/bin/python manage.py runserver"
